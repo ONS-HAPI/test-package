@@ -20,8 +20,6 @@ def updateGitHubStatus(String description, String state) {
             -H \"Authorization: token ${GITHUB_TOKEN}\" \
             \"https://api.github.com/repos/${GITHUB_ORGANISATION}/${GITHUB_PROJECT_NAME}/statuses/${long_sha}\" \
             -d \'{\"state\": \"${state}\", \"context\": \"Jenkins\", \"description\": \"${description}\", \"target_url\": \"https://jen-m.ons.statistics.gov.uk/blue/organizations/jenkins/${JENKINS_AREA}%2F${JENKINS_PROJECT_NAME}/detail/${BRANCH_NAME}/${BUILD_NUMBER}/pipeline\"}\'"      
-            // Ugly classic Jenkins console
-            //-d \'{\"state\": \"${state}\", \"context\": \"Jenkins\", \"description\": \"${description}\", \"target_url\": \"https://jen-m.ons.statistics.gov.uk/job/${JENKINS_AREA}/job/${JENKINS_PROJECT_NAME}/job/${BRANCH_NAME}/${BUILD_NUMBER}/console\"}\'"       
     }
 }
 
@@ -102,7 +100,7 @@ pipeline {
             steps {
                 unstash name: "Build"
                 colourText('info', "Deploying to Artifactory")
-                // pushToPyPiArtifactoryRepo("${buildInfo.name}")
+                pushToPyPiArtifactoryRepo("${buildInfo.name}")
             }
         }
     }
