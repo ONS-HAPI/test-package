@@ -2,7 +2,7 @@ name: Documentation
 
 on:
   push:
-    branches: [ main ]
+    branches: main 
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,9 +30,7 @@ jobs:
       run: (cd docs && make html)
         
     - name: Deploy docs to GitHub Pages
-      # Only deploy on new version
-      if: startsWith(github.event.ref, 'refs/tags/v')
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./book/_build/html  # sphinx output dir
+        publish_dir: ./docs/build/html  # sphinx output dir
