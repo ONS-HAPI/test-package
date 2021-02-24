@@ -63,8 +63,7 @@ pipeline {
             steps {
                 unstash name: "Checkout"
                 colourText('info', "Running pytest.")                
-                sh 'pip3 install pytest'
-                sh 'pip3 install -e .'
+                sh 'pip3 install -e .[testing]'
                 sh 'python3 -m pytest'
             }
         }
