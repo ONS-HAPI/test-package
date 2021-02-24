@@ -64,7 +64,7 @@ pipeline {
                 unstash name: "Checkout"
                 colourText('info', "Running pytest.")                
                 sh 'pip3 install pytest'
-                sh 'python3 setup.py install'  // Possibly more realistic than `pip install -e .`
+                sh 'pip3 install -e .'
                 sh 'python3 -m pytest'
             }
         }
