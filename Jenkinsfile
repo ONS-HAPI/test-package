@@ -43,8 +43,6 @@ pipeline {
             steps {
                 colourText("info", "Checking out code from source control.")
                 checkout scm
-                // Need to have the repo checked out to get Git commit SHA
-                updateGitHubStatus(env.STATUS_DESCRIPTION, 'pending')
                 // Stash the files that have been checked out, for use in subsequent stages
                 stash name: "Checkout", useDefaultExcludes: false
             }
