@@ -7,22 +7,6 @@ def artServer = Artifactory.server "art-p-01"
 def buildInfo = Artifactory.newBuildInfo()
 def agentPython3Version = 'python_3.6.1'
 
-def updateGitHubStatus(String description, String state) {
-    // State must be pending, success or failure
-    withCredentials([string(credentialsId: env.GITHUB_TOKEN_NAME, variable: 'GITHUB_TOKEN')]) {            
-        println("Updating GitHub pipeline status")
-        long_sha = sh(returnStdout: true, script: "git rev-parse HEAD").trim()
-        
-        sh "curl \
-            -X POST \
-            -x $PROXY \
-            -H \"Accept: application/vnd.github.v3+json\" \
-            -H \"Authorization: token ${GITHUB_TOKEN}\" \
-            \"https://api.github.com/repos/${GITHUB_ORGANISATION}/${GITHUB_PROJECT_NAME}/statuses/${long_sha}\" \
-            -d \'{\"state\": \"${state}\", \"context\": \"Jenkins\", \"description\": \"${description}\", \"target_url\": \"https://jen-m.ons.statistics.gov.uk/blue/organizations/jenkins/${JENKINS_AREA}%2F${JENKINS_PROJECT_NAME}/detail/${BRANCH_NAME}/${BUILD_NUMBER}/pipeline\"}\'"      
-    }
-}
-
 def pushToPyPiArtifactoryRepo(String projectName, String sourceDist = 'dist/*', String artifactoryHost = 'art-p-01') {
     withCredentials([usernamePassword(credentialsId: env.ARTIFACTORY_CREDS, usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASSWORD')]){
         sh "curl -u ${ARTIFACTORY_USER}:\${ARTIFACTORY_PASSWORD} -T ${sourceDist} 'http://${artifactoryHost}/artifactory/${env.ARTIFACTORY_PYPI_REPO}/${projectName}/'"
@@ -37,14 +21,6 @@ pipeline {
 
     // Define env variables
     environment {
-        GITHUB_PROJECT_NAME = "test-package"
-        MAIN_BRANCH = "main"
-        GITHUB_ORGANISATION = "HAPI"
-        GITHUB_TOKEN_NAME = "PAT"  // GitHUB PAT, set in Jenkins Credentials
-        JENKINS_AREA = "hapi"
-        JENKINS_PROJECT_NAME = "test-package"
-        PROXY = credentials("PROXY")  // Http proxy address, set in Jenkins Credentials
-        STATUS_DESCRIPTION = "Artifactory Deployment"
         ARTIFACTORY_CREDS = 's_cvd19_sch' // set in Jenkins Credentials
         ARTIFACTORY_PYPI_REPO = 'DAP-CVD19-SCH'
     }
@@ -104,15 +80,4 @@ pipeline {
             }
         }
     }
-    post {
-        success {
-            unstash name: 'Checkout'
-            updateGitHubStatus(env.STATUS_DESCRIPTION, 'success')
-        }
-        failure {
-            unstash name: 'Checkout'
-            updateGitHubStatus(env.STATUS_DESCRIPTION, 'failure')
-        }
-    }
-
 }
