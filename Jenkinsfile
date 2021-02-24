@@ -41,8 +41,8 @@ pipeline {
         MAIN_BRANCH = "main"
         GITHUB_ORGANISATION = "HAPI"
         GITHUB_TOKEN_NAME = "PAT"  // GitHUB PAT, set in Jenkins Credentials
-        JENKINS_AREA = "BPI"
-        JENKINS_PROJECT_NAME = "test_package"
+        JENKINS_AREA = "hapi"
+        JENKINS_PROJECT_NAME = "test-package"
         PROXY = credentials("PROXY")  // Http proxy address, set in Jenkins Credentials
         STATUS_DESCRIPTION = "Artifactory Deployment"
         ARTIFACTORY_CREDS = 's_cvd19_sch' // set in Jenkins Credentials
