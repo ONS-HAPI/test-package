@@ -36,9 +36,10 @@ jobs:
           python-version: 3.6.8
           
       - name: Install Python dependencies
+        # Wheel is specific here because of conflicts on this Python version
         run: |
           python -m pip install --upgrade pip
-          pip install wheel
+          pip install wheel==0.29.0
           pip install -e .[testing]
 
       - name: Run pytest with coverage

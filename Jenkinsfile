@@ -53,7 +53,7 @@ pipeline {
             steps {
                 unstash name: 'Checkout'
                 colourText('info', "Building package")
-                sh 'pip3 install wheel==0.29.0'
+                sh 'pip3 install wheel==0.29.0'  // Later versions not compatible with Python 3.6
                 sh 'python3 setup.py build bdist_wheel'
                 stash name: "Build", useDefaultExcludes: false
             }
