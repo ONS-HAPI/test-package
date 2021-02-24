@@ -33,7 +33,7 @@ setup(
     description="A test package",
     packages=find_packages(exclude=('tests',)),
     install_requires=read_requirements("requirements.txt"),
-    extras_requires = {
+    extras_require={
         "docs": docs_requires,
         "testing": test_requires
     },
