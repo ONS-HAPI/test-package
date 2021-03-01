@@ -21,7 +21,7 @@ pipeline {
 
     // Define env variables
     environment {
-        ARTIFACTORY_CREDS = 's_cvd19_sch' // set in Jenkins Credentials
+        ARTIFACTORY_CREDS = 'ARTIFACTORY_CREDS' // set in Jenkins Credentials
         ARTIFACTORY_PYPI_REPO = 'DAP-CVD19-SCH'
     }
 
@@ -56,16 +56,6 @@ pipeline {
                 sh 'pip3 install wheel==0.29.0'  // Later versions not compatible with Python 3.6
                 sh 'python3 setup.py build bdist_wheel'
                 stash name: "Build", useDefaultExcludes: false
-            }
-        }
-        stage("Test") {
-            agent { label "test.${agentPython3Version}" }
-            steps {
-                unstash name: "Checkout"
-                colourText('info', "Running pytest.")                
-                sh 'pip3 install -e .[testing]'
-                sh 'pip3 install pysqlite3'  // Pytest needed this
-                sh 'python3 -m pytest'
             }
         }
         stage("Deploy") {
