@@ -24,7 +24,7 @@ test_requires = [
 ] + docs_requires
 
 setup(
-    name="test-package",
+    name="testpackage",
     version="0.1.0",
     url="",
     license='MIT',
