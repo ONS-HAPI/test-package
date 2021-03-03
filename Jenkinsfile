@@ -21,7 +21,7 @@ pipeline {
 
     // Define env variables
     environment {
-        ARTIFACTORY_CREDS = 's_cvd19_sch' // set in Jenkins Credentials
+        ARTIFACTORY_CREDS = 'ARTIFACTORY_CREDS' // set in Jenkins Credentials
         ARTIFACTORY_PYPI_REPO = 'DAP-CVD19-SCH'
     }
 

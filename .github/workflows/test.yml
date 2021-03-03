@@ -2,13 +2,13 @@
 
 name: Testing and coverage
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push events for the main branch
   push:
     branches: [ main ]
   pull_request: # And on all Pull Requests
-    
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -35,12 +35,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v2
-      
+
       - name: Set up Python 3.6.8
         uses: actions/setup-python@v2
         with:
           python-version: 3.6.8
-          
+
       - name: Install Python dependencies
         # Wheel is specific here because of conflicts on this Python version
         run: |
@@ -51,7 +51,7 @@ jobs:
         run: |
           pytest --cov=test-package --cov-report=xml --cov-report=term-missing
           coverage xml
-          
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
